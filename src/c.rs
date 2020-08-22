@@ -5,7 +5,7 @@ pub enum LedMatrix {}
 pub enum LedCanvas {}
 pub enum LedFont {}
 
-#[derive(Clone, Copy)]
+#[derive(Clone, Copy, Debug)]
 pub struct LedColor {
     pub red: u8,
     pub green: u8,
@@ -202,12 +202,7 @@ impl LedCanvas {
 
     pub fn fill(&mut self, color: &LedColor) {
         unsafe {
-            led_canvas_fill(
-                self,
-                color.red as u8,
-                color.green as u8,
-                color.blue as u8,
-            );
+            led_canvas_fill(self, color.red as u8, color.green as u8, color.blue as u8);
         }
     }
 
@@ -294,14 +289,7 @@ extern "C" {
     //    pub fn led_matrix_print_flags(out: *mut FILE);
     pub fn led_matrix_get_canvas(matrix: *mut LedMatrix) -> *mut LedCanvas;
     pub fn led_canvas_get_size(canvas: *const LedCanvas, width: *mut c_int, height: *mut c_int);
-    pub fn led_canvas_set_pixel(
-        canvas: *mut LedCanvas,
-        x: c_int,
-        y: c_int,
-        r: u8,
-        g: u8,
-        b: u8,
-    );
+    pub fn led_canvas_set_pixel(canvas: *mut LedCanvas, x: c_int, y: c_int, r: u8, g: u8, b: u8);
     pub fn led_canvas_clear(canvas: *mut LedCanvas);
     pub fn led_canvas_fill(canvas: *mut LedCanvas, r: u8, g: u8, b: u8);
     pub fn led_matrix_create_offscreen_canvas(matrix: *mut LedMatrix) -> *mut LedCanvas;
